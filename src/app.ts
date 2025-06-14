@@ -5,7 +5,7 @@ import { HttpError } from "http-errors";
 const app = express();
 
 app.get("/", (req, res) => {
-    res.send("Welcome to Auth service");
+    res.status(201).send("Welcome to Auth service");
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
