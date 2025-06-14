@@ -1,5 +1,3 @@
-function login(username: string): string {
-  return username;
-}
+import { Config } from "./config";
 
-login("CheesyRide");
+console.log(Config.PORT);

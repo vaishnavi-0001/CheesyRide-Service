@@ -29,7 +29,10 @@
     "lint-staged": {
         "*.ts": [
             "npm run format:fix",
-            "nom run lint:fix"
+            "npm run lint:fix"
         ]
+    },
+    "dependencies": {
+        "dotenv": "^16.5.0"
     }
 }
