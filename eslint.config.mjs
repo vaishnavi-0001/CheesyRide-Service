@@ -5,7 +5,12 @@ export default tseslint.config(
     eslintJs.configs.recommended,
     tseslint.configs.recommendedTypeChecked,
     {
-        ignores: ["**/dist/**", "node_modules", "eslint.config.mjs", "jest.config.js"],
+        ignores: [
+            "**/dist/**",
+            "node_modules",
+            "eslint.config.mjs",
+            "jest.config.js",
+        ],
     },
     {
         languageOptions: {
@@ -18,8 +23,7 @@ export default tseslint.config(
             // add your custom rules here
             // "no-console" : "error",
             // "dot-notation": "error",
-            "@typescript-eslint/no-misused-promises":  "off"
-
+            "@typescript-eslint/no-misused-promises": "off",
         },
     },
 );
