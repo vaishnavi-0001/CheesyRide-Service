@@ -5,11 +5,11 @@
     "main": "index.js",
     "scripts": {
         "dev": "nodemon src/server.ts",
-        "test": "jest  --watchAll --runInBand",
+        "test": "jest --watchAll --runInBand",
         "format:fix": "prettier . --write",
         "format:check": "prettier . --check",
         "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
+        "lint:fix": "eslint '**/*.ts' --fix",
         "prepare": "husky install"
     },
     "author": "Vaishnavi",
@@ -45,6 +45,9 @@
     "dependencies": {
         "dotenv": "^16.5.0",
         "express": "^5.1.0",
+        "pg": "^8.16.0",
+        "reflect-metadata": "^0.2.2",
+        "typeorm": "^0.3.24",
         "winston": "^3.17.0"
     }
 }
