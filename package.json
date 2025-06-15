@@ -9,7 +9,7 @@
         "format:fix": "prettier . --write",
         "format:check": "prettier . --check",
         "lint": "eslint .",
-        "lint:fix": "eslint '**/*.ts' --fix",
+        "lint:fix": "eslint src/**/*.ts tests/**/*.ts --fix",
         "prepare": "husky install",
         "start": "ts-node src/index.ts",
         "typeorm": "typeorm-ts-node-commonjs"
