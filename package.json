@@ -8,9 +8,9 @@
         "test": "jest  --watchAll --runInBand",
         "format:fix": "prettier . --write",
         "format:check": "prettier . --check",
-        "lint:check": "eslint .",
+        "lint": "eslint .",
         "lint:fix": "eslint . --fix",
-        "prepare": "husky"
+        "prepare": "husky install"
     },
     "author": "Vaishnavi",
     "license": "ISC",
