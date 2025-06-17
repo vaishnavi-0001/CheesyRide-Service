@@ -12,9 +12,9 @@ import { CredentialService } from "../services/CredentialService";
 import authenticate from "../middlewares/authenticate";
 import { AuthRequest } from "../types";
 import validateRefreshToken from "../middlewares/validateRefreshToken";
+import parseRefreshToken from "../middlewares/parseRefreshToken";
 
 const router = express.Router();
-
 const userRepository = AppDataSource.getRepository(User);
 const userService = new UserService(userRepository);
 const refreshTokenRepository = AppDataSource.getRepository(RefreshToken);
@@ -30,24 +30,16 @@ const authController = new AuthController(
 router.post(
     "/register",
     registerValidator,
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            await authController.register(req, res, next);
-        } catch (error) {
-            next(error);
-        }
+    (req: Request, res: Response, next: NextFunction) => {
+        authController.register(req, res, next).catch(next);
     },
 );
 
 router.post(
     "/login",
     loginValidator,
-    async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            await authController.login(req, res, next);
-        } catch (error) {
-            next(error);
-        }
+    (req: Request, res: Response, next: NextFunction) => {
+        authController.login(req, res, next).catch(next);
     },
 );
 
@@ -60,6 +52,14 @@ router.post(
     validateRefreshToken,
     (req: Request, res: Response, next: NextFunction) =>
         authController.refresh(req as AuthRequest, res, next),
+);
+
+router.post(
+    "/logout",
+    authenticate,
+    parseRefreshToken,
+    (req: Request, res: Response, next: NextFunction) =>
+        authController.logout(req as AuthRequest, res, next),
 );
 
 export default router;
