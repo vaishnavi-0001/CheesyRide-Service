@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import request from "supertest";
 import createJWKSMock from "mock-jwks";
+
 import { AppDataSource } from "../../src/config/data-source";
 import app from "../../src/app";
 import { User } from "../../src/entity/User";
@@ -74,10 +75,10 @@ describe("GET /auth/self", () => {
         it("should not return the password field", async () => {
             // Register user
             const userData = {
-                firstName: "Rakesh",
-                lastName: "K",
-                email: "rakesh@mern.space",
-                password: "password",
+                firstName: "Arya",
+                lastName: "Sharma",
+                email: "arya@mern.space",
+                password: "secret001",
             };
             const userRepository = connection.getRepository(User);
             const data = await userRepository.save({
@@ -100,6 +101,26 @@ describe("GET /auth/self", () => {
             expect(response.body as Record<string, string>).not.toHaveProperty(
                 "password",
             );
+        });
+
+        it("should return 401 status code if token does not exists", async () => {
+            // Register user
+            const userData = {
+                firstName: "Arya",
+                lastName: "Sharma",
+                email: "arya@mern.space",
+                password: "secret001",
+            };
+            const userRepository = connection.getRepository(User);
+            await userRepository.save({
+                ...userData,
+                role: Roles.CUSTOMER,
+            });
+
+            // Add token to cookie
+            const response = await request(app).get("/auth/self").send();
+            // Assert
+            expect(response.statusCode).toBe(401);
         });
     });
 });

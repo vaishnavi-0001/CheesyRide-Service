@@ -17,6 +17,7 @@
     "author": "Vaishnavi",
     "license": "ISC",
     "devDependencies": {
+        "@babel/preset-typescript": "^7.27.1",
         "@eslint/js": "^9.29.0",
         "@types/bcrypt": "^5.0.2",
         "@types/cookie": "^0.6.0",
@@ -63,6 +64,7 @@
         "mock-jwks": "^1.0.10",
         "pg": "^8.14.1",
         "reflect-metadata": "^0.2.2",
+        "rsa-pem-to-jwk": "^1.1.3",
         "typeorm": "0.3.24",
         "winston": "^3.17.0"
     }
