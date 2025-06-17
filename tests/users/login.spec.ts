@@ -27,10 +27,10 @@ describe("POST /auth/login", () => {
         it("should return the access token and refresh token inside a cookie", async () => {
             // Arrange
             const userData = {
-                firstName: "Rakesh",
-                lastName: "K",
-                email: "rakesh@mern.space",
-                password: "password",
+                firstName: "Arya",
+                lastName: "Sharma",
+                email: "arya@mern.space",
+                password: "secret001",
             };
 
             const hashedPassword = await bcrypt.hash(userData.password, 10);
@@ -73,10 +73,10 @@ describe("POST /auth/login", () => {
         it("should return the 400 if email or password is wrong", async () => {
             // Arrange
             const userData = {
-                firstName: "Rakesh",
-                lastName: "K",
-                email: "rakesh@mern.space",
-                password: "password",
+                firstName: "Arya",
+                lastName: "Sharma",
+                email: "arya@mern.space",
+                password: "secret001",
             };
 
             const hashedPassword = await bcrypt.hash(userData.password, 10);
