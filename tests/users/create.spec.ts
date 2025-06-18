@@ -98,6 +98,7 @@ describe("POST /users", () => {
         });
 
         it("should return 403 if non admin user tries to create a user", async () => {
+            const tenant = await createTenant(connection.getRepository(Tenant));
             const nonAdminToken = jwks.token({
                 sub: "1",
                 role: Roles.MANAGER,
@@ -108,7 +109,7 @@ describe("POST /users", () => {
                 lastName: "Sharma",
                 email: "arya@mern.space",
                 password: "secret001",
-                tenantId: 1,
+                tenantId: tenant.id,
             };
 
             // Add token to cookie
