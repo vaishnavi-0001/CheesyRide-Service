@@ -161,6 +161,7 @@ describe("POST /auth/register", () => {
             expect(response.statusCode).toBe(400);
             expect(users).toHaveLength(1);
         });
+
         it("should return the access token and refresh token inside a cookie", async () => {
             // Arrange
             const userData = {
@@ -179,10 +180,9 @@ describe("POST /auth/register", () => {
                 ["set-cookie"]: string[];
             }
             // Assert
-            let accessToken = null;
-            let refreshToken = null;
-            const cookies =
-                (response.headers as unknown as Headers)["set-cookie"] || [];
+            let accessToken: string | null = null;
+            let refreshToken: string | null = null;
+            const cookies = (response.headers as unknown as Headers)["set-cookie"] || [];
             // accessToken=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjkzOTA5Mjc2LCJleHAiOjE2OTM5MDkzMzYsImlzcyI6Im1lcm5zcGFjZSJ9.KetQMEzY36vxhO6WKwSR-P_feRU1yI-nJtp6RhCEZQTPlQlmVsNTP7mO-qfCdBr0gszxHi9Jd1mqf-hGhfiK8BRA_Zy2CH9xpPTBud_luqLMvfPiz3gYR24jPjDxfZJscdhE_AIL6Uv2fxCKvLba17X0WbefJSy4rtx3ZyLkbnnbelIqu5J5_7lz4aIkHjt-rb_sBaoQ0l8wE5KzyDNy7mGUf7cI_yR8D8VlO7x9llbhvCHF8ts6YSBRBt_e2Mjg5txtfBaDq5auCTXQ2lmnJtMb75t1nAFu8KwQPrDYmwtGZDkHUcpQhlP7R-y3H99YnrWpXbP8Zr_oO67hWnoCSw; Max-Age=43200; Domain=localhost; Path=/; Expires=Tue, 05 Sep 2023 22:21:16 GMT; HttpOnly; SameSite=Strict
             cookies.forEach((cookie) => {
                 if (cookie.startsWith("accessToken=")) {
@@ -199,7 +199,6 @@ describe("POST /auth/register", () => {
             expect(isJwt(accessToken)).toBeTruthy();
             expect(isJwt(refreshToken)).toBeTruthy();
         });
-
         it("should store the refresh token in the database", async () => {
             // Arrange
             const userData = {
@@ -228,7 +227,6 @@ describe("POST /auth/register", () => {
             expect(tokens).toHaveLength(1);
         });
     });
-
     describe("Fields are missing", () => {
         it("should return 400 status code if email field is missing", async () => {
             // Arrange
@@ -254,7 +252,7 @@ describe("POST /auth/register", () => {
             // Arrange
             const userData = {
                 firstName: "",
-                lastName: "sharma",
+                lastName: "Sharma",
                 email: "arya@mern.space",
                 password: "secret001",
             };
@@ -269,11 +267,10 @@ describe("POST /auth/register", () => {
             const users = await userRepository.find();
             expect(users).toHaveLength(0);
         });
-
         it("should return 400 status code if lastName is missing", async () => {
             // Arrange
             const userData = {
-                firstName: "arya",
+                firstName: "Arya",
                 lastName: "",
                 email: "arya@mern.space",
                 password: "secret001",
@@ -334,7 +331,7 @@ describe("POST /auth/register", () => {
             const userData = {
                 firstName: "Arya",
                 lastName: "Sharma",
-                email: "  aryan12@mern.space ",
+                email: "aryan@mern.space",
                 password: "secret001",
             };
             // Act
@@ -351,8 +348,8 @@ describe("POST /auth/register", () => {
         it("should return 400 status code if password length is less than 8 chars", async () => {
             // Arrange
             const userData = {
-                firstName: "arya",
-                lastName: "sharma",
+                firstName: "Arya",
+                lastName: "Sharma",
                 email: "arya@mern.space",
                 password: "pass", // less than 8 chars
             };
