@@ -1,9 +1,4 @@
-import express, {
-    NextFunction,
-    Request,
-    RequestHandler,
-    Response,
-} from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { AuthController } from "../controllers/AuthController";
 import { UserService } from "../services/UserService";
 import { AppDataSource } from "../config/data-source";
@@ -32,56 +27,39 @@ const authController = new AuthController(
     credentialService,
 );
 
-router.post("/register", registerValidator, (async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-) => {
-    await authController.register(req, res, next);
-}) as RequestHandler);
+router.post(
+    "/register",
+    registerValidator,
+    (req: Request, res: Response, next: NextFunction) => {
+        authController.register(req, res, next).catch(next);
+    },
+);
 
 router.post(
     "/login",
     loginValidator,
-    async (req: Request, res: Response, next: NextFunction) => {
-        await authController.login(req, res, next);
+    (req: Request, res: Response, next: NextFunction) => {
+        authController.login(req, res, next).catch(next);
     },
 );
 
-router.get(
-    "/self",
-    authenticate as RequestHandler,
-    (req: Request, res: Response) => {
-        void authController.self(
-            req as AuthRequest,
-            res,
-        );
-    },
+router.get("/self", authenticate, (req: Request, res: Response) =>
+    authController.self(req as AuthRequest, res),
 );
 
 router.post(
     "/refresh",
-    validateRefreshToken as RequestHandler,
-    async (req: Request, res: Response, next: NextFunction) => {
-        await authController.refresh(
-            req as AuthRequest,
-            res,
-            next,
-        );
-    },
+    validateRefreshToken,
+    (req: Request, res: Response, next: NextFunction) =>
+        authController.refresh(req as AuthRequest, res, next),
 );
 
 router.post(
     "/logout",
-    authenticate as RequestHandler,
-    parseRefreshToken as RequestHandler,
-    async (req: Request, res: Response, next: NextFunction) => {
-        await authController.logout(
-            req as AuthRequest,
-            res,
-            next,
-        );
-    },
+    authenticate,
+    parseRefreshToken,
+    (req: Request, res: Response, next: NextFunction) =>
+        authController.logout(req as AuthRequest, res, next),
 );
 
 export default router;
