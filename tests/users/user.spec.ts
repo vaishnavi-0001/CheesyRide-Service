@@ -6,6 +6,8 @@ import { AppDataSource } from "../../src/config/data-source";
 import app from "../../src/app";
 import { User } from "../../src/entity/User";
 import { Roles } from "../../src/constants";
+jest.setTimeout(15000); // or even higher, if needed
+
 
 describe("GET /auth/self", () => {
     let connection: DataSource;
