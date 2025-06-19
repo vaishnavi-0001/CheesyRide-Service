@@ -331,7 +331,7 @@ describe("POST /auth/register", () => {
             const userData = {
                 firstName: "Arya",
                 lastName: "Sharma",
-                email: " arya1_@mern.space",
+                email: " arya1_@mern",
                 password: "secret001",
             };
             // Act
