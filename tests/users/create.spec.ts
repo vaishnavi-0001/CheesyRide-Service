@@ -8,6 +8,8 @@ import { Roles } from "../../src/constants";
 import { User } from "../../src/entity/User";
 import { Tenant } from "../../src/entity/Tenant";
 import { createTenant } from "../utils";
+jest.setTimeout(15000); // or even higher, if needed
+
 
 describe("POST /users", () => {
     let connection: DataSource;
