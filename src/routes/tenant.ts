@@ -1,4 +1,4 @@
-import express, { NextFunction, Response } from "express";
+import express, { NextFunction, RequestHandler, Response } from "express";
 import { TenantController } from "../controllers/TenantController";
 import { TenantService } from "../services/TenantServices";
 import { AppDataSource } from "../config/data-source";
@@ -18,49 +18,58 @@ const tenantController = new TenantController(tenantService, logger);
 
 router.post(
     "/",
-    authenticate,
+    authenticate as RequestHandler,
     canAccess([Roles.ADMIN]),
     tenantValidator,
-    async (
-        req: CreateTenantRequest,
-        res: Response,
-        next: NextFunction,
-    ): Promise<void> => {
+    async (req: express.Request, res: Response, next: NextFunction) => {
         try {
             await tenantController.create(req, res, next);
-        } catch (error) {
-            next(error);
+        } catch (err) {
+            next(err);
         }
     },
 );
 
 router.patch(
     "/:id",
-    authenticate,
+    authenticate as RequestHandler,
     canAccess([Roles.ADMIN]),
     tenantValidator,
-    async (
-        req: CreateTenantRequest,
-        res: Response,
-        next: NextFunction,
-    ): Promise<void> => {
+    async (req: CreateTenantRequest, res: Response, next: NextFunction) => {
         try {
             await tenantController.update(req, res, next);
-        } catch (error) {
-            next(error);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+router.get(
+    "/",
+    (req, res, next) => tenantController.getAll(req, res, next),
+);
+router.get(
+    "/:id",
+    authenticate as RequestHandler,
+    canAccess([Roles.ADMIN]),
+    async (req, res, next) => {
+        try {
+            await tenantController.getOne(req, res, next);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+router.delete(
+    "/:id",
+    authenticate as RequestHandler,
+    canAccess([Roles.ADMIN]),
+    async (req, res, next) => {
+        try {
+            await tenantController.destroy(req, res, next);
+        } catch (err) {
+            next(err);
         }
     },
 );
 
-router.get("/", (req, res, next) => tenantController.getAll(req, res, next));
-router.get("/:id", authenticate, canAccess([Roles.ADMIN]), (req, res, next) =>
-    tenantController.getOne(req, res, next),
-);
-
-router.delete(
-    "/:id",
-    authenticate,
-    canAccess([Roles.ADMIN]),
-    (req, res, next) => tenantController.destroy(req, res, next),
-);
 export default router;
