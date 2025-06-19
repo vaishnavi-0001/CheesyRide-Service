@@ -12,6 +12,11 @@ export default tseslint.config(
             "jest.config.js",
             "*spec.ts",
             "tests/",
+            "scripts/convertPemToJwk.mjs",
+            "scripts/generateKeys.mjs",
+            "coverage/",                    // ✅ Ignore all coverage files
+            "coverage/**",                 // ✅ Recursively ignore all under coverage/
+            "**/coverage/**",              // ✅ Also ensures nested folders are ignored
         ],
     },
     {
@@ -22,8 +27,8 @@ export default tseslint.config(
             },
         },
         rules: {
-            // add your custom rules here
-            // "no-console" : "error",
+            // Add your custom rules here
+            // "no-console": "error",
             // "dot-notation": "error",
             "@typescript-eslint/no-misused-promises": "off",
         },
