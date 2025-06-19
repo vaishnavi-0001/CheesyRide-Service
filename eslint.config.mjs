@@ -30,7 +30,8 @@ export default tseslint.config(
             // Add your custom rules here
             // "no-console": "error",
             // "dot-notation": "error",
-            "@typescript-eslint/no-misused-promises": "off",
+            // "@typescript-eslint/no-misused-promises": "off",
+            "@typescript-eslint/require-await": "off",
         },
     },
 );
