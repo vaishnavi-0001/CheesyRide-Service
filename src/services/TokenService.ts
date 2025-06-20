@@ -15,7 +15,8 @@ export class TokenService {
         }
         try {
             privateKey = Config.PRIVATE_KEY;
-        } catch {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (err) {
             const error = createHttpError(
                 500,
                 "Error while reading private key",
@@ -25,9 +26,10 @@ export class TokenService {
 
         const accessToken = sign(payload, privateKey, {
             algorithm: "RS256",
-            expiresIn: "1h",
+            expiresIn: "1m",
             issuer: "auth-service",
         });
+
         return accessToken;
     }
 
@@ -38,6 +40,7 @@ export class TokenService {
             issuer: "auth-service",
             jwtid: String(payload.id),
         });
+
         return refreshToken;
     }
 
