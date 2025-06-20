@@ -12,14 +12,14 @@ const app = express();
 
 const ALLOWED_DOMAINS = [Config.CLIENT_UI_DOMAIN, Config.ADMIN_UI_DOMAIN];
 
-app.use(cors({ origin: ALLOWED_DOMAINS as string[] }));
+app.use(cors({ origin: ALLOWED_DOMAINS as string[], credentials: true }));
 
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.status(201).send("Welcome to Auth service");
+    res.send("Welcome to Auth service from K8s");
 });
 
 app.use("/auth", authRouter);

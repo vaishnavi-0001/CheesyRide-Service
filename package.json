@@ -4,7 +4,7 @@
     "description": "User Management Service",
     "main": "index.js",
     "scripts": {
-        "dev": "cross-env NODE_ENV=Production nodemon src/server.ts",
+        "dev": "cross-env NODE_ENV=dev nodemon src/server.ts",
         "build": "tsc",
         "test": "jest --no-cache --coverage --all --runInBand",
         "test:watch": "jest --watch --runInBand",
