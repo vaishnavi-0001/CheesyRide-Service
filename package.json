@@ -4,7 +4,7 @@
     "description": "User Management Service",
     "main": "index.js",
     "scripts": {
-        "dev": "cross-env NODE_ENV=dev nodemon src/server.ts",
+        "dev": "cross-env NODE_ENV=Production nodemon src/server.ts",
         "build": "tsc",
         "test": "jest --no-cache --coverage --all --runInBand",
         "test:watch": "jest --watch --runInBand",
@@ -34,6 +34,7 @@
         "@types/jsonwebtoken": "^9.0.10",
         "@types/node": "^24.0.1",
         "@types/supertest": "^6.0.3",
+        "@types/uuid": "^9.0.8",
         "@types/winston": "^2.4.4",
         "@typescript-eslint/eslint-plugin": "^8.34.0",
         "@typescript-eslint/parser": "^8.34.0",
