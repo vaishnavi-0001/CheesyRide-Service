@@ -80,6 +80,7 @@ public/
 .env.dev
 .env.test
 .env.production
+.env.migration
 
 
 # parcel-bundler cache (https://parceljs.org/)
