@@ -36,23 +36,24 @@ jobs:
     #               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     #               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-    build-and-push-docker:
-        name: Build and Push Docker Image
-        # needs: build-and-test
-        runs-on: ubuntu-latest
-        env:
-            IMAGE_NAME: vaishnavi124/chessyride
-            IMAGE_TAG: build-${{ github.run_number }}
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v3
-            - name: Log in to Docker Hub
-              uses: docker/login-action@v1
-              with:
-                  username: ${{ secrets.DOCKERHUB_USERNAME }}
-                  password: ${{ secrets.DOCKERHUB_PASSWORD }}
-            - name: Build Docker image
-              run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --platform linux/amd64 -f docker/prod/Dockerfile .
-            - name: Push Docker image to Docker Hub
-              run: docker push ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+    build-and-push:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3
+
+        - name: Log in to Docker Hub
+          run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+        - name: Build Docker image
+          run: docker build -t vaishnavi124/chessyride:build-23 .
+
+        - name: Push Docker image to Docker Hub
+          run: docker push vaishnavi124/chessyride:build-23
+
+        - name: Confirmation
+          run: echo "✅ Docker image vaishnavi124/chessyride:build-23 pushed successfully"
