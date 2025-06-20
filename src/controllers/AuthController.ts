@@ -48,6 +48,12 @@ export class AuthController {
             const payload: JwtPayload = {
                 sub: String(user.id),
                 role: user.role,
+                 // add tenant id to the payloadAdd commentMore actions
+                 tenant: user.tenant ? String(user.tenant.id) : "",
+
+                 firstName: user.firstName,
+                 lastName: user.lastName,
+                 email: user.email,
             };
 
             const accessToken = this.tokenService.generateAccessToken(payload);
@@ -63,7 +69,7 @@ export class AuthController {
             res.cookie("accessToken", accessToken, {
                 domain: "localhost",
                 sameSite: "strict",
-                maxAge: 1000 * 60 * 60, // 1h
+                maxAge: 1000 * 60 * 60 * 24 * 1, // 1d
                 httpOnly: true, // Very important
             });
 
@@ -122,6 +128,10 @@ export class AuthController {
             const payload: JwtPayload = {
                 sub: String(user.id),
                 role: user.role,
+                tenant: user.tenant ? String(user.tenant.id) : "",
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
             };
 
             const accessToken = this.tokenService.generateAccessToken(payload);
@@ -138,7 +148,7 @@ export class AuthController {
             res.cookie("accessToken", accessToken, {
                 domain: "localhost",
                 sameSite: "strict",
-                maxAge: 1000 * 60 * 60, // 1h
+                maxAge: 1000 * 60 * 60 * 24 * 1, // 1d
                 httpOnly: true, // Very important
             });
 
@@ -168,6 +178,10 @@ export class AuthController {
             const payload: JwtPayload = {
                 sub: req.auth.sub,
                 role: req.auth.role,
+                tenant: req.auth.tenant,
+                firstName: req.auth.firstName,
+                lastName: req.auth.lastName,
+                email: req.auth.email,
             };
 
             const accessToken = this.tokenService.generateAccessToken(payload);
@@ -197,7 +211,7 @@ export class AuthController {
             res.cookie("accessToken", accessToken, {
                 domain: "localhost",
                 sameSite: "strict",
-                maxAge: 1000 * 60 * 60, // 1h
+                maxAge: 1000 * 60 * 60 * 24 * 1, // 1d
                 httpOnly: true, // Very important
             });
 

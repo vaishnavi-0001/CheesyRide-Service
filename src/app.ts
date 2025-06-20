@@ -1,13 +1,19 @@
 import "reflect-metadata";
-import express, { NextFunction, Request, Response } from "express";
+import express  from "express";
 import cookieParser from "cookie-parser";
-import logger from "./config/logger";
-import { HttpError } from "http-errors";
+import cors from "cors";
 import authRouter from "./routes/auth";
 import tenantRouter from "./routes/tenant";
 import userRouter from "./routes/user";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
+import { Config } from "./config";
 
 const app = express();
+
+const ALLOWED_DOMAINS = [Config.CLIENT_UI_DOMAIN, Config.ADMIN_UI_DOMAIN];
+
+app.use(cors({ origin: ALLOWED_DOMAINS as string[] }));
+
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
@@ -20,20 +26,6 @@ app.use("/auth", authRouter);
 app.use("/tenants", tenantRouter);
 app.use("/users", userRouter);
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
-    logger.error(err.message);
-    const statusCode = err.statusCode || err.status || 500;
-    res.status(statusCode).json({
-        errors: [
-            {
-                type: err.name,
-                msg: err.message,
-                path: "",
-                location: "",
-            },
-        ],
-    });
-});
 
+app.use(globalErrorHandler);
 export default app;
