@@ -119,5 +119,5 @@
         "src",
         "scripts/**/*.mjs",
             "service/scripts/run-migration.mjs"
-      ]
+, "scripts/run-migration.js"      ]
 }

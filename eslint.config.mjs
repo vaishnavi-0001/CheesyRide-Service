@@ -16,7 +16,9 @@ export default tseslint.config(
             "scripts/generateKeys.mjs",
             "coverage/",                    // ✅ Ignore all coverage files
             "coverage/**",                 // ✅ Recursively ignore all under coverage/
-            "**/coverage/**",              // ✅ Also ensures nested folders are ignored
+            "**/coverage/**", 
+            ".github",
+            "*.js",             // ✅ Also ensures nested folders are ignored
         ],
     },
     {
