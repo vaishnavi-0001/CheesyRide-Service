@@ -10,6 +10,9 @@ import logger from "../config/logger";
 import createUserValidator from "../validators/create-user-validatot";
 import { UpdateUserRequest } from "../types";
 import updateUserValidator from "../validators/update-user-validator";
+import listUsersValidator from "../validators/list-users-validator";
+import { Request } from "express-jwt";
+
 
 const router = express.Router();
 
@@ -48,7 +51,8 @@ router.patch(
         userController.update(req, res, next),
     ),
 );
-router.get("/", authenticate, canAccess([Roles.ADMIN]), (req, res, next) =>
+router.get("/", authenticate, canAccess([Roles.ADMIN]), listUsersValidator,
+(req: Request, res: Response, next: NextFunction) =>
     userController.getAll(req, res, next),
 );
 
