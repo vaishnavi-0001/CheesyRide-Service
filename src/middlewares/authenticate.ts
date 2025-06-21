@@ -1,28 +1,20 @@
-import { expressjwt, GetVerificationKey } from "express-jwt";
+import { expressjwt } from "express-jwt";
 import { Request } from "express";
-import jwksClient from "jwks-rsa";
-import { Config } from "../config";
 import { AuthCookie } from "../types";
 
+const JWT_SECRET = process.env.JWT_SECRET || "dev-super-secret";
+
 export default expressjwt({
-    secret: jwksClient.expressJwtSecret({
-        jwksUri: Config.JWKS_URI!,
-        cache: true,
-        rateLimit: true,
-    }) as GetVerificationKey,
-    algorithms: ["RS256"],
-    getToken(req: Request) {
-        const authHeader = req.headers.authorization;
+  secret: JWT_SECRET,
+  algorithms: ["HS256"],  // ✅ this MUST match what you used to sign the token
+  getToken(req: Request) {
+    const authHeader = req.headers.authorization;
 
-        // Bearer eyjllsdjfljlasdjfljlsadjfljlsdf
-        if (authHeader && authHeader.split(" ")[1] !== "undefined") {
-            const token = authHeader.split(" ")[1];
-            if (token) {
-                return token;
-            }
-        }
+    if (authHeader && authHeader.split(" ")[1] !== "undefined") {
+      return authHeader.split(" ")[1];
+    }
 
-        const { accessToken } = req.cookies as AuthCookie;
-        return accessToken;
-    },
+    const { accessToken } = req.cookies as AuthCookie;
+    return accessToken;
+  },
 });
