@@ -117,7 +117,10 @@
     
     "include": [
         "src",
+        
+    "service/scripts/**/*.ts",
         "scripts/**/*.mjs",
+        "scripts/**/*.js",
             "service/scripts/run-migration.mjs"
 , "scripts/run-migration.js"      ]
 }

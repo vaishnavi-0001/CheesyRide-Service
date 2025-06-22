@@ -102,7 +102,7 @@ export class UserService {
             const searchTerm = `%${validatedQuery.q}%`;
             queryBuilder.where(
                 new Brackets((qb) => {
-                    // Rakesh K
+                   
                     qb.where(
                         "CONCAT(user.firstName, ' ', user.lastName) ILike :q",
                         { q: searchTerm },
@@ -118,6 +118,7 @@ export class UserService {
         }
 
         const result = await queryBuilder
+            .leftJoinAndSelect("user.tenant", "tenant")
             .skip((validatedQuery.currentPage - 1) * validatedQuery.perPage)
             .take(validatedQuery.perPage)
             .orderBy("user.id", "DESC")
